@@ -6,8 +6,12 @@
   </head>
   <body>
     <h1>スレッド</h1>
+    <form action="{{ url_for('send_message', thread_id = data.thread_id) }}" method="post">
+      <input type="text" name="body">
+      <input type="submit" value="送信">
+    </form>
     <ul>
-    {% for message in messages %}
+    {% for message in data.messages %}
       <li><h2>{{ message.body }}</h2>{{ message.user.name }}
     {% else %}
       <li></li>

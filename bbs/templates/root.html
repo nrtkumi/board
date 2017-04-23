@@ -10,5 +10,7 @@
     {% endfor %}
     <h1>Hello!</h1>
     <i>ようこそ、{{ data.user.name }}さん</i>
+    <a href="{{ url_for('new_thread') }}">新規スレッドの作成</a>
+    <a href="{{ url_for('all_thread') }}">スレッド一覧</a>
   </body>
 </html>

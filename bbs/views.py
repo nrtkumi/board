@@ -88,5 +88,18 @@ def all_thread():
 
 @app.route('/threads/<thread_id>')
 def show_thread(thread_id):
-    messages = Message.query.filter_by(thread_id = thread_id).all()
-    return render_template('show_thread.html', messages = messages)
+    data = {}
+    data['thread_id'] = thread_id
+    data['messages'] = Message.query.filter_by(thread_id = thread_id).all()
+    return render_template('show_thread.html', data = data)
+
+@app.route('/threads/<thread_id>/send', methods = ['POST'])
+def send_message(thread_id):
+    if request.form['body']:
+        user = User.query.filter_by(token = request.cookies.get('bbs_uid')).first()
+        message = Message(body = request.form['body'],
+                          user_id = user.id,
+                          thread_id = thread_id)
+        db.session.add(message)
+        db.session.commit()
+        return redirect(url_for('show_thread', thread_id = thread_id))
