@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+  </head>
+  <body>
+    <h1>ログイン</h1>
+    {% for message in get_flashed_messages() %}
+    <h1>{{ message }}</h1>
+    {% endfor %}
+
+    <form action="{{ url_for('login') }}" method="post">
+      <dl>
+        <dt>Email:
+        <dd><input type=text name="email">
+        <dt>パスワード:
+        <dd><input type=text name="password">
+        <dd><input type=submit value="ログイン">
+      </dl>
+    </form>
+    <a href="{{ url_for('signup') }}">アカウント新規作成</a>
+  </body>
+</html>
