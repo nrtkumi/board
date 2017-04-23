@@ -30,9 +30,12 @@ def root():
 def login():
     if request.method == 'POST':
         if request.form['email'] and request.form['password']:
-            # DB
-            res = make_response(render_template('root.html'))
-            res.set_cookie('bbs_uid', uuid.uuid4().hex)
+            user = User.query.filter_by(email = request.form['email']).first()
+            if user is None or user.password != request.form['password']:
+                flash('emailかパスワードが間違っています')
+                return render_template('login.html')
+            res = make_response(redirect(url_for('root')))
+            res.set_cookie('bbs_uid', user.token)
             flash('ログイン成功')
             return res
         else:
