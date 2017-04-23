@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>All Threads</title>
+  </head>
+  <body>
+    <h1>スレッド一覧</h1>
+    <ul>
+    {% for thread in threads %}
+      <li><h2><a href="{{ url_for('show_thread', thread_id = thread.id) }}">{{ thread.title }}</a></h2>owner: {{ thread.user.name }}
+    {% else %}
+      <li></li>
+    {% endfor %}
+    </ul>
+  </body>
+</html>

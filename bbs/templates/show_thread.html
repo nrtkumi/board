@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Thread</title>
+  </head>
+  <body>
+    <h1>スレッド</h1>
+    <ul>
+    {% for message in messages %}
+      <li><h2>{{ message.body }}</h2>{{ message.user.name }}
+    {% else %}
+      <li></li>
+    {% endfor %}
+    </ul>
+  </body>
+</html>

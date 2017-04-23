@@ -66,3 +66,27 @@ def signup():
         else:
             flash('入力に不備があります')
     return render_template('signup.html')
+
+@app.route('/thread/new')
+def new_thread():
+    return render_template('new_thread.html')
+
+@app.route('/thread', methods = ['POST'])
+def create_thread():
+    if request.form['title']:
+        user = User.query.filter_by(token = request.cookies.get('bbs_uid')).first()
+        thread = Thread(title = request.form['title'],
+                        user_id = user.id)
+        db.session.add(thread)
+        db.session.commit()
+        return redirect(url_for('all_thread'))
+
+@app.route('/threads')
+def all_thread():
+    threads = Thread.query.order_by(Thread.id.desc()).all()
+    return render_template('all_thread.html', threads = threads)
+
+@app.route('/threads/<thread_id>')
+def show_thread(thread_id):
+    messages = Message.query.filter_by(thread_id = thread_id).all()
+    return render_template('show_thread.html', messages = messages)
