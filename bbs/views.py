@@ -90,6 +90,7 @@ def all_thread():
 def show_thread(thread_id):
     data = {}
     data['thread_id'] = thread_id
+    data['user'] = User.query.filter_by(token = request.cookies.get('bbs_uid')).first()
     data['messages'] = Message.query.filter_by(thread_id = thread_id).all()
     return render_template('show_thread.html', data = data)
 
@@ -103,3 +104,21 @@ def send_message(thread_id):
         db.session.add(message)
         db.session.commit()
         return redirect(url_for('show_thread', thread_id = thread_id))
+
+@app.route('/edit_mesage/<message_id>')
+def edit_message(message_id):
+    user = User.query.filter_by(token = request.cookies.get('bbs_uid')).first()
+    message = Message.query.get(message_id)
+    if user.id != message.user_id:
+        return redirect(url_for('root'))
+    return render_template('edit_message.html', message = message)
+
+@app.route('/edit/<message_id>', methods = ['POST'])
+def update_message(message_id):
+    new_body = request.form['body']
+    message = Message.query.filter_by(id = message_id).first()
+    message.body = new_body
+    db.session.add(message)
+    db.session.commit()
+
+    return redirect(url_for('show_thread', thread_id = message.thread_id))

@@ -13,6 +13,9 @@
     <ul>
     {% for message in data.messages %}
       <li><h2>{{ message.body }}</h2>{{ message.user.name }}
+      {% if data.user.token == message.user.token %}
+        <i><a href="{{ url_for('edit_message', message_id = message.id) }}">メッセージを編集</a></i>
+      {% endif %}
     {% else %}
       <li></li>
     {% endfor %}

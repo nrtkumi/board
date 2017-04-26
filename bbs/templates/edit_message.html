@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Edit Message</title>
+  </head>
+  <body>
+    <h1>メッセージの編集</h1>
+    <form action="{{ url_for('update_message', message_id = message.id) }}" method="post">
+      <input type="text" name="body" value="{{ message.body }}">
+      <input type="submit" value="更新">
+    </form>
+  </body>
+</html>
